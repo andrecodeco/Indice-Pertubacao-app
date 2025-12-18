@@ -679,7 +679,7 @@ if __name__ == "__main__":
     # ╚══════════════════════════════════════════════════════════════════════╝
 
     # Arquivo MIDI para análise
-    ARQUIVO_MIDI = "base.midi"  # Altere para o nome do seu arquivo
+    ARQUIVO_MIDI = "teste.midi"  # Altere para o nome do seu arquivo
 
     # Tipo de gráfico: 'interacao' ou 'perturbacao'
     TIPO_GRAFICO = 'interacao'
