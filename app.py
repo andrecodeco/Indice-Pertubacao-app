@@ -1,9 +1,11 @@
 import streamlit as st
 import tempfile
 import io
+import base64
+import requests
 from IndicePetubacao import IndicePerturbacaoMIDI
 
-# Configuração da página (deve ser o primeiro comando Streamlit)
+# Configuração da página
 st.set_page_config(
     page_title="Índice de Perturbação",
     page_icon="🎵",
@@ -11,13 +13,42 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Injeta meta tags de PWA no HTML
-PWA_TAGS = """
-<link rel="manifest" href="https://raw.githubusercontent.com/andrecodeco/Indice-Pertubacao-app/main/static/manifest.json">
+# Carrega ícone do GitHub e converte para base64 (cache para não baixar toda vez)
+@st.cache_data
+def carregar_icone_base64(url):
+    try:
+        r = requests.get(url, timeout=5)
+        return base64.b64encode(r.content).decode('utf-8')
+    except:
+        return ""
+
+ICON_192 = carregar_icone_base64("https://raw.githubusercontent.com/andrecodeco/Indice-Pertubacao-app/main/static/icon-192.png")
+ICON_512 = carregar_icone_base64("https://raw.githubusercontent.com/andrecodeco/Indice-Pertubacao-app/main/static/icon-512.png")
+
+# Manifest embutido como data URI (funciona em iPhone)
+manifest_json = f'''{{
+  "name": "Índice de Perturbação",
+  "short_name": "IP MIDI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1117",
+  "theme_color": "#1e2327",
+  "icons": [
+    {{"src": "data:image/png;base64,{ICON_192}", "sizes": "192x192", "type": "image/png"}},
+    {{"src": "data:image/png;base64,{ICON_512}", "sizes": "512x512", "type": "image/png"}}
+  ]
+}}'''
+manifest_b64 = base64.b64encode(manifest_json.encode()).decode()
+
+PWA_TAGS = f"""
+<link rel="manifest" href="data:application/manifest+json;base64,{manifest_b64}">
+<link rel="apple-touch-icon" href="data:image/png;base64,{ICON_192}">
+<link rel="apple-touch-icon" sizes="192x192" href="data:image/png;base64,{ICON_192}">
+<link rel="apple-touch-icon" sizes="512x512" href="data:image/png;base64,{ICON_512}">
+<link rel="icon" type="image/png" href="data:image/png;base64,{ICON_192}">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="IP MIDI">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/andrecodeco/Indice-Pertubacao-app/main/static/icon-192.png">
 <meta name="theme-color" content="#1e2327">
 <meta name="mobile-web-app-capable" content="yes">
 """
