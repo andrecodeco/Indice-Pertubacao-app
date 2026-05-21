@@ -1,0 +1,24 @@
+{
+  "name": "Índice de Perturbação",
+  "short_name": "IP MIDI",
+  "description": "Análise de Índice de Perturbação em arquivos MIDI - Teoria do Domínio Sonoro",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e1117",
+  "theme_color": "#1e2327",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/andrecodeco/Indice-Pertubacao-app/main/static/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/andrecodeco/Indice-Pertubacao-app/main/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
